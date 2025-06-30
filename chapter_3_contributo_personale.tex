@@ -4,7 +4,8 @@ Il progetto contenuto nella repository è gestito in quattro cartelle principali
 Notiamo che tutte le implementazioni descritte successivamente condividono alcune caratteristiche, quali la possibilità di soddisfare unicamente richieste di memoria di dimensioni contenute nei parametri di creazione dell'allocatore. La dimensione dell’area di memoria dinamicamente gestita infatti non cambia nell’eventualità che venga fatta un’allocazione impossibile da soddisfare. L’allocatore non reclama ulteriore memoria dal sistema operativo neppure a seguito di richieste che potrebbero essere soddisfatte se memoria fosse rilasciata ad esso. Invece in entrambi i casi viene gestito l’errore ritornando al richiedente un valore invalido per segnalare l’insuccesso.
 
 \section{L’interfaccia Allocator}
-Il contratto che gli allocatori devono seguire consiste nell’interfaccia \texttt{Allocator} (definita in \texttt{./header/allocator.h}), che stabilisce le primitive necessarie:
+L’uso di struct combinate con puntatori a funzioni ha permesso di definire un’interfaccia uniforme per gli allocatori, facilitando eventuali estensioni future. Il contratto che essi devono seguire consiste nella struct \texttt{Allocator} (definita in \texttt{./header/allocator.h}), che stabilisce le primitive necessarie:
+
 \begin{itemize}
     \item l’inizializzazione (\texttt{init});
     \item la distruzione (\texttt{dest});
