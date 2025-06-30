@@ -3,7 +3,7 @@ SRC = my_thesis.tex
 CHAPTERS = chapter_1_introduction.tex chapter_2_lavori_correlati.tex chapter_3_contributo_personale.tex chapter_4_esperimenti.tex chapter_5_conclusioni.tex bibliografia.tex
 TEXFLAGS = -interaction=nonstopmode -halt-on-error
 TEXF = $(TEX) $(TEXFLAGS)
-OUTDIR = tex_compile
+OUTDIR = build
 PDF = my_thesis.pdf
 PARENT = ..
 IMAGEDIRS = images images/slab images/buddy images/bitmap
