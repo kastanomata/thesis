@@ -84,7 +84,7 @@
 \dedication{A chi fa della curiosità il proprio mestiere}
 
 \begin{abstract}
-Questa tesi esplora l’implementazione di allocatori di memoria in contesti \textit{bare metal} in C, analizzando strategie per gestire la memoria dinamica in assenza di un sistema operativo. Vengono presentati tre allocatori principali: lo \texttt{SlabAllocator}, ottimizzato per blocchi di dimensione fissa; il \texttt{BuddyAllocator}, che bilancia flessibilità e frammentazione attraverso il \textit{buddy system}; e il \texttt{BitmapBuddyAllocator}, una variante che migliora l’efficienza della cache utilizzando una \textit{bitmap}.
+Questa tesi esplora l’implementazione svolta nel linguaggio C di allocatori dinamici di memoria in contesti \textit{bare metal}, analizzando strategie per gestire questa risorsa in assenza o in sostituzione del sistema operativo. Vengono presentati tre allocatori principali: lo \texttt{SlabAllocator}, ottimizzato per blocchi di dimensione fissa; il \texttt{BuddyAllocator}, che bilancia flessibilità e frammentazione attraverso il \textit{buddy system}; e il \texttt{BitmapBuddyAllocator}, una variante che migliora l’efficienza della \textit{cache} utilizzando una \textit{bitmap}.
 
 L’analisi evidenzia come la scelta dell’allocatore dipenda dal contesto applicativo, con \textit{trade-off} tra velocità, frammentazione e utilizzo delle risorse. I \textit{benchmark} dimostrano che soluzioni specializzate, come lo \texttt{SlabAllocator}, offrono prestazioni ottimali per casi d’uso specifici, mentre allocatori più generalisti, come quelli che implementano il \textit{buddy system}, garantiscono adattabilità con alcuni compromessi sulla frammentazione.
 
