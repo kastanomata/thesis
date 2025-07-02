@@ -33,7 +33,7 @@ Secondo la più recente specifica UML, \textit{“un'interfaccia è un tipo di c
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/allocator_interface_uml.pdf}
+    \includegraphics[width=1\textwidth]{images/allocator_interface_uml.pdf}
     \caption{Diagramma UML dell'interfaccia Allocator e delle sue implementazioni.}
     \label{fig:uml_allocator_interface}
 \end{figure}
@@ -125,6 +125,13 @@ Lo spazio per gestire l’appartenenza del blocco alla lista (ossia i campi dell
 
 Poiché tutti i blocchi hanno la stessa dimensione, alla richiesta non è necessario stabilire quale di essi sia più opportuno allocare: \textbf{la suddivisione avviene a priori durante l’inizializzazione del gestore, e la taglia dei blocchi non è modificata in nessun momento}. La lista viene consultata e il blocco in testa viene estratto e restituito. Quando un blocco viene rilasciato, l’indirizzo di memoria viene controllato: se esso risulta essere corretto, viene semplicemente inserito al primo posto della lista per uso futuro. Notiamo che l’ordine della lista non rappresenta assolutamente la contiguità dei blocchi e richieste immediatamente successive possono ritornare blocchi non contigui.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/slab/slab_allocator_change_order.pdf}
+    \caption{Vediamo una sequenza di istruzioni che inverte l'ordine dei blocchi nella lista concatenata. Le prossime allocazioni saranno contigue, ma non in ordine.}
+    \label{fig:slab_allocator_change_order}
+\end{figure}
+
 \subsection*{Efficienza dello SlabAllocator}
 Analizziamo più nel dettaglio la complessità computazionale delle operazioni svolte dal gestore. L’allocazione ha un costo costante, così come la liberazione di un blocco, poiché in entrambi i casi viene semplicemente manipolata la testa di una \textit{linked list} contenente i riferimenti ai blocchi liberi. Essi non sono in alcun modo manipolati a seguito di richieste: la loro grandezza rimane costante e questo elimina completamente i costi legati alle operazioni di divisione e unione.
 
@@ -156,6 +163,15 @@ I primi tentativi alla divisione dinamica dello spazio disponibile presero il no
 
 Adoperare queste o altre politiche di scelta del blocco tuttavia può comportare la possibilità concreta che, alla richiesta dell'utente, per via della suddivisione in atto dovuta alle allocazioni precedenti, non vi siano blocchi di memoria \textbf{contigua} disponibili per soddisfarla, anche se la quantità di memoria frammentata (o \textit{sparse}) potrebbe esaudire la richiesta. Questa problematica prende il nome di \textbf{frammentazione esterna}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/external_fragmentation_visualization.pdf}
+    \caption{\textit{External fragmentation}: l'immagine descrive una sequenza di operazioni che termina in uno stato critico. Infatti, se chiedessimo di seguito all'allocatore un blocco di dimensione pari a un quinto dell'area totale, esso non potrebbe onorare la richiesta nonostante esista memoria non contigua sufficiente.}
+    \label{fig:external_fragmentation_visualization}
+\end{figure}
+
+La classe \texttt{VariableBlockAllocator} implementa l'interfaccia \texttt{Allocator}, a cui aggiunge anche campi dati utilizzati ai fini di \textit{debugging} per monitorare la frammentazione esterna (\texttt{sparse\_free\_memory}) e interna (\texttt{internal\_fragmentation}). Il significato di queste metriche sarà reso chiaro nella sezione successiva. Quando viene allocata memoria, viene aggiornata la quantità di byte liberi gestiti dall'allocatore in blocchi separati. Se una richiesta non può essere soddisfatta dall'allocatore, vengono controllati questi valori per stabilire se la memoria frammentata avrebbe potuto onorare la domanda. Questa classe è astratta e non può essere istanziata direttamente.
+
 \begin{lstlisting}
 struct VariableBlockAllocator {
     Allocator base;
@@ -164,7 +180,6 @@ struct VariableBlockAllocator {
 };
 \end{lstlisting}
 
-La classe \texttt{VariableBlockAllocator} implementa l'interfaccia \texttt{Allocator}, a cui aggiunge anche campi dati utilizzati ai fini di \textit{debugging} per monitorare la frammentazione esterna (\texttt{sparse\_free\_memory}) e interna (\texttt{internal\_fragmentation}). Il significato di queste metriche sarà reso chiaro nella sezione successiva. Quando viene allocata memoria, viene aggiornata la quantità di byte liberi gestiti dall'allocatore in blocchi separati. Se una richiesta non può essere soddisfatta dall'allocatore, vengono controllati questi valori per stabilire se la memoria frammentata avrebbe potuto onorare la domanda. Questa classe è astratta e non può essere istanziata direttamente.
 
 L'implementazione dei \textit{“sequential fits”}, famosamente esplorata da Knuth, presenta importanti limitazioni. La perdità di scalabilità per via del costo lineare è un punto critico: all’aumentare del numero di blocchi, il costo temporale della ricerca diventa proibitivo. Sebbene con dovuti accorgimenti si possano evitare un eccessivo \textit{overhead}\footnote{Knuth stesso ne ha proposto uno che successivamente è diventato molto popolare: il concetto di \textit{boundary tag}, ossia salvare le informazioni al termine dell'area allocata per facilitare la riunione dei blocchi.} e una debilitante frammentazione esterna, l’inefficienza della scansione lineare è il fattore che principalmente ne impedisce l'applicazione nei contesti ad alte prestazioni.
 
@@ -223,13 +238,23 @@ void* BuddyAllocator_malloc(BuddyAllocator* a, size_t size);
 int BuddyAllocator_free(BuddyAllocator* a, void* ptr);
 \end{lstlisting}
 
-Dalla descrizione del sistema buddy, notiamo facilmente che la struttura dati delineata corrisponde a un albero binario. Infatti, ogni nodo (blocco di memoria) tranne la radice possiede un singolo genitore e un \textit{buddy}. Esso può inoltre a sua volta essere scomposto quando necessario in due ulteriori nodi liberi. Un vantaggio della struttura binaria è che il \textit{buddy} corrisponde sempre con il blocco adiacente (precedente o successivo).
+Dalla descrizione del sistema \textit{buddy}, notiamo facilmente che la struttura dati delineata corrisponde a un albero binario. Infatti, ogni nodo (blocco di memoria) tranne la radice possiede un singolo genitore e un \textit{buddy}. Esso può inoltre a sua volta essere scomposto quando necessario in due ulteriori nodi liberi. Un vantaggio della struttura binaria è che il \textit{buddy} corrisponde sempre con il blocco adiacente (precedente o successivo).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/buddy/buddy_binary_structure.pdf}
+    \caption{Il \textit{buddy system} genera una struttura ad albero binario. }
+    \label{fig:buddy_binary_structure}
+\end{figure}
+
 
 \subsection*{Efficienza del BuddyAllocator}
 L'operazione di allocazione esplora per prima la lista libera del livello più appropriato (\textit{best fit}). Se non trova blocchi disponibili, risale ai livelli superiori, dividendo i blocchi fino a raggiungere la dimensione desiderata. Questo approccio garantisce un costo $O(1)$ nel caso ideale (blocco disponibile nel livello corretto) e $O(L)$ nel caso peggiore, dove L è il numero di livelli. La fusione dei blocchi liberi avviene in tempo $O(L)$, grazie alla verifica ricorsiva dello stato del buddy. 
 L'uso di \textit{free lists} separate per ogni livello elimina la necessità di strutture talvolta complesse ad albero, semplificando l'implementazione e riducendo il costo. L'allocatore paga un costo in termini di memoria per i metadati aggiuntivi (puntatori a \textit{buddy} e \textit{parent}), che potrebbe essere evitato con un calcolo dinamico degli indirizzi dei buddy. 
 
-\textbf{L’architettura del \textit{buddy system} risolve radicalmente il problema della frammentazione esterna tipica degli allocatori tradizionali.} La memoria libera viene infatti divisa equamente in base alle necessità reali del programma e costantemente riaggregata in blocchi ordinati e perfettamente allineati. Tuttavia, questa soluzione non è esente da criticità. \textbf{L'arrotondamento sistematico alla potenza di due superiore comporta inevitabilmente una certa quantità di frammentazione interna}, particolarmente evidente quando le richieste di memoria sono solo leggermente superiori a una data potenza di due. La rigidità del sistema lo rende dunque meno adatto a gestire pattern di allocazione estremamente variabili o imprevedibili. La differenza tra la memoria richiesta e quella ottenuta viene registrata nel campo \texttt{size\_t internal\_fragmentation} della classe astratta \texttt{VariableBlockAllocator}.
+\textbf{L’architettura del \textit{buddy system} risolve radicalmente il problema della frammentazione esterna tipica degli allocatori tradizionali.} La memoria libera viene infatti divisa equamente in base alle necessità reali del programma e costantemente riaggregata in blocchi ordinati e perfettamente allineati. Tuttavia, questa soluzione non è esente da criticità. \textbf{L'arrotondamento sistematico alla potenza di due superiore comporta inevitabilmente una certa quantità di frammentazione interna}, particolarmente evidente quando le richieste di memoria sono solo leggermente superiori a una data potenza di due.
+
+La rigidità del sistema lo rende dunque meno adatto a gestire pattern di allocazione estremamente variabili o imprevedibili. La differenza tra la memoria richiesta e quella ottenuta viene registrata nel campo \texttt{size\_t internal\_fragmentation} della classe astratta \texttt{VariableBlockAllocator}.
 
 \begin{center}
 \begin{tabular}{|l|l|}
@@ -244,6 +269,13 @@ Frammentazione esterna & Generalmente bassa \\
 \hline
 \end{tabular}
 \end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/buddy/buddy_internal_fragmentation.pdf}
+    \caption{\textit{Internal fragmentation}: la memoria in viola fa parte del blocco che è stato restituito all'utente. Pertanto essa non è gestita dall'allocatore e rimane inutilizzata.}
+    \label{fig:buddy_internal_fragmentation}
+\end{figure}
 
 Ad esempio, supponiamo di avere blocchi disponibili di dimensione $A$, $B$, $C$ e $D$, dove ogni lettera rappresenta una potenza di due crescente (ad esempio, $A = 8$, $B = 16$, $C = 32$, $D = 64$). Se viene richiesta una quantità di memoria pari a $B+1$, il sistema non potrà allocare un blocco di dimensione $B$, ma dovrà assegnare il blocco successivo più grande, ovvero $C$. In questo modo, una richiesta di poco superiore a $B$ comporta l'allocazione di un blocco di dimensione doppia, lasciando inutilizzata una parte significativa della memoria allocata. Avremo successivamente modo di esaminare più nel dettaglio un caso simile.
 
@@ -269,7 +301,15 @@ typedef struct {
 } BitmapBuddyAllocator;
 \end{lstlisting}
 
-Poiché il \texttt{BitmapBuddyAllocator} è una variante del classico \textit{buddy system}, le operazioni che esso svolge sono simili a quelle viste precedentemente: la differenza è nella struttura dati che viene consultata (la \textit{bitmap} piuttosto che le liste concatenate). Quando viene richiesta della memoria, l’allocatore cerca in \texttt{bitmap} un blocco libero della dimensione giusta. Se non lo trova, risale di livello per trovarne uno più grande e lo suddivide nei due \textit{buddy} di dimensione uguale, aggiornando lo stato della memoria di conseguenza. Un blocco \textit{parent} che sia scomposto in \textit{buddy} di cui almeno uno è utilizzato è segnato a sua volta come non adoperabile per esaudire richieste, in quanto parte di esso è allocata.
+Poiché il \texttt{BitmapBuddyAllocator} è una variante del classico \textit{buddy system}, le operazioni che esso svolge sono simili a quelle viste precedentemente: la differenza è nella struttura dati che viene consultata (la \textit{bitmap} piuttosto che le liste concatenate). Quando viene richiesta della memoria, l’allocatore cerca in \texttt{bitmap} un blocco libero della dimensione giusta. Se non lo trova, è sicuro che non esista memoria che possa portare a termine con successo l'operazione. Un blocco \textit{parent} che sia scomposto in \textit{buddy} di cui almeno uno è utilizzato è segnato a sua volta come non adoperabile per esaudire richieste, in quanto parte di esso è allocata; tutti i discendenti di un blocco allocato sono considerati occupati.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/bitmap/bitmap_matchup.pdf}
+    \caption{Il blocco selezionato è segnato dalla freccia blu. Come vediamo, i suoi antenati e discendenti sono segnalati come occupati a loro volta.}
+    \label{fig:bitmap_matchup}
+\end{figure}
+
 
 \begin{lstlisting}
 // inline has been omitted for brevity
@@ -279,7 +319,7 @@ void* BitmapBuddyAllocator_malloc(BitmapBuddyAllocator* a, size_t size);
 int BitmapBuddyAllocator_free(BitmapBuddyAllocator* a, void* ptr);
 \end{lstlisting}
 
-Durante la deallocazione, il bit del blocco viene segnato come libero. Se anche il \textit{buddy} è libero, i due vengono fusi e il blocco originario viene ricostruito, riducendo la frammentazione. In breve, il \texttt{BitmapBuddyAllocator} unisce la flessibilità del \textit{buddy system} con la velocità e compattezza delle \textit{bitmap}, risultando ideale per ambienti ad alte prestazioni.
+Durante la deallocazione, il bit del blocco viene segnato come libero. Se anche il \textit{buddy} è libero, il bit del genitore è ricorsivamente posto a zero. In breve, il \texttt{BitmapBuddyAllocator} unisce la flessibilità del \textit{buddy system} con la velocità e compattezza delle \textit{bitmap}, risultando ideale per ambienti ad alte prestazioni.
 
 \begin{lstlisting}
 static int levelIdx(size_t idx) {

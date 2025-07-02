@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="130.23978mm"
+   height="114.4779mm"
+   viewBox="0 0 130.23978 114.4779"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="external_fragmentation_visualization.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="1.3416246"
+     inkscape:cx="316.40744"
+     inkscape:cy="253.05142"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="1671"
+     inkscape:window-y="53"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       id="grid1"
+       units="mm"
+       originx="-9.7602221"
+       originy="-9.8428222"
+       spacingx="0.99999998"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6" />
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6-1" />
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6-1-2" />
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6-1-2-7" />
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6-1-2-7-1" />
+    <rect
+       x="37.795277"
+       y="37.795277"
+       width="199.34644"
+       height="67.661972"
+       id="rect6-1-2-7-1-5" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-9.7602215,-9.8428219)">
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340052;stroke-dasharray:none"
+       id="rect1"
+       width="78.715759"
+       height="15.743153"
+       x="61.114212"
+       y="10.012848" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect2"
+       width="59.036827"
+       height="15.743153"
+       x="80.793152"
+       y="29.691786" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3"
+       width="19.67894"
+       height="15.743153"
+       x="61.114204"
+       y="29.691786" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-9"
+       width="19.67894"
+       height="15.743153"
+       x="61.114204"
+       y="49.370724" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-9-8"
+       width="19.67894"
+       height="15.743153"
+       x="61.114204"
+       y="69.049675" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4"
+       width="19.67894"
+       height="15.743153"
+       x="80.793152"
+       y="49.370724" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-7"
+       width="19.67894"
+       height="15.743153"
+       x="80.793159"
+       y="69.049675" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-8"
+       width="19.67894"
+       height="15.743153"
+       x="100.47209"
+       y="69.049675" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-1"
+       width="19.67894"
+       height="15.743153"
+       x="120.15103"
+       y="69.049675" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-7-2"
+       width="19.67894"
+       height="15.743153"
+       x="80.793152"
+       y="88.728615" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-8-4"
+       width="19.67894"
+       height="15.743153"
+       x="100.47208"
+       y="88.728615" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-4-1-2"
+       width="19.67894"
+       height="15.743153"
+       x="120.15102"
+       y="88.728615" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-2"
+       width="19.67894"
+       height="15.743153"
+       x="100.47208"
+       y="49.370724" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-3"
+       width="19.67894"
+       height="15.743153"
+       x="120.15103"
+       y="49.370724" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect3-0"
+       width="19.67894"
+       height="15.743153"
+       x="120.15103"
+       y="49.370728" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect4"
+       width="15.743154"
+       height="15.743153"
+       x="61.114204"
+       y="88.728607" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect5"
+       width="3.9357884"
+       height="15.743153"
+       x="76.857368"
+       y="88.728607" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect4-6"
+       width="15.743154"
+       height="15.743153"
+       x="61.114204"
+       y="108.40754" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect5-5"
+       width="3.9357884"
+       height="15.743153"
+       x="76.857368"
+       y="108.40754" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect4-61"
+       width="15.743154"
+       height="15.743153"
+       x="80.793152"
+       y="108.40754" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect5-8"
+       width="3.9357884"
+       height="15.743153"
+       x="96.536308"
+       y="108.40754" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect4-7"
+       width="15.743154"
+       height="15.743153"
+       x="100.47208"
+       y="108.40754" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect5-6"
+       width="3.9357884"
+       height="15.743153"
+       x="116.21526"
+       y="108.40754" />
+    <rect
+       style="fill:#f57979;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect4-0"
+       width="15.743154"
+       height="15.743153"
+       x="120.15103"
+       y="108.40754" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.340053;stroke-dasharray:none"
+       id="rect5-0"
+       width="3.9357884"
+       height="15.743153"
+       x="135.89418"
+       y="108.40754" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.75974674,0.6665372)"
+       id="text5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan1">1. Inizializziamo memoria per </tspan><tspan
+         x="37.794922"
+         y="67.143117"
+         id="tspan3">l'allocatore.</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.79604507,20.149562)"
+       id="text5-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6-1);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan4">2. Allochiamo blocchi di </tspan><tspan
+         x="37.794922"
+         y="67.143117"
+         id="tspan5">grandezza pari a 1/4 della </tspan><tspan
+         x="37.794922"
+         y="84.651242"
+         id="tspan6">memoria totale.</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.73258814,39.828504)"
+       id="text5-9-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6-1-2);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan8">3. Saturiamo l'area con le nostre </tspan><tspan
+         x="37.794922"
+         y="67.143117"
+         id="tspan9">richieste.</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.74885922,59.507444)"
+       id="text5-9-5-2"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6-1-2-7);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan10">4. Liberiamo uno dei 4 blocchi. </tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.78953659,79.186386)"
+       id="text5-9-5-2-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6-1-2-7-1);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan11">5. Allochiamo area pari a 1/5 </tspan><tspan
+         x="37.794922"
+         y="67.143117"
+         id="tspan12">della memoria. La richiesta </tspan><tspan
+         x="37.794922"
+         y="84.651242"
+         id="tspan13">verrà esaudita. </tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.23791125,0,0,0.23791125,0.90831502,99.021583)"
+       id="text5-9-5-2-9-3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.0065px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6-1-2-7-1-5);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.63276;stroke-dasharray:none"><tspan
+         x="37.794922"
+         y="49.634991"
+         id="tspan14">6. Ripetiamo i punti 4 e 5, </tspan><tspan
+         x="37.794922"
+         y="67.143117"
+         id="tspan15">ottenendo lo stato qui illustrato</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.3323px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:none;fill-opacity:1;stroke:none;stroke-width:0.340053;stroke-dasharray:none"
+       x="27.763245"
+       y="55.598595"
+       id="text7"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         style="stroke-width:0.340052"
+         x="27.763245"
+         y="55.598595">.</tspan></text>
+  </g>
+</svg>

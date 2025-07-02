@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="135.25mm"
+   height="63.458687mm"
+   viewBox="0 0 135.25 63.458685"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="buddy_internal_fragmentation.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="11.160606"
+     inkscape:cx="225.07738"
+     inkscape:cy="221.89655"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="1671"
+     inkscape:window-y="53"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid1"
+       units="mm"
+       originx="-20.000001"
+       originy="-9.9250732"
+       spacingx="0.99999998"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="0.86065334"
+       y="208.15723"
+       width="415.74802"
+       height="37.795277"
+       id="rect8" />
+    <rect
+       x="-112.52517"
+       y="113.66903"
+       width="94.488182"
+       height="37.795277"
+       id="rect7" />
+    <rect
+       x="-112.52517"
+       y="19.180836"
+       width="94.488182"
+       height="37.795277"
+       id="rect6" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-20.000001,-9.9250708)">
+    <rect
+       style="fill:#f57979;stroke:#000000;stroke-width:0.499;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="29.978321"
+       height="20.097155"
+       x="45.021683"
+       y="40.000008" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="99.608925"
+       height="19.824928"
+       x="50.195538"
+       y="10.175071" />
+    <rect
+       style="fill:#5de860;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4"
+       width="50"
+       height="19.999998"
+       x="105"
+       y="39.999996" />
+    <rect
+       style="fill:#f29eec;fill-opacity:1;stroke:#000000;stroke-width:0.501212;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5"
+       width="20"
+       height="20.097162"
+       x="75"
+       y="40.000004" />
+    <path
+       style="fill:#e85656;fill-opacity:1;stroke:#000000;stroke-width:0.4;stroke-dasharray:0.8, 0.4;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 99.999997,10.175071 100,29.999998"
+       id="path5" />
+    <path
+       style="fill:#f29eec;fill-opacity:1;stroke:#000000;stroke-width:0.301886;stroke-dasharray:0.603771, 0.905657;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 75.150002,10.175072 V 30.249999"
+       id="path5-1" />
+    <path
+       style="fill:#f29eec;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-dasharray:0.6, 0.9;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 124.85,10.175072 V 29.999999"
+       id="path5-2" />
+    <path
+       style="fill:#f29eec;fill-opacity:1;stroke:#000000;stroke-width:0.303921;stroke-dasharray:0.607842, 0.911763;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 70.000004,40.000008 3e-6,20.346552"
+       id="path5-23" />
+    <path
+       style="fill:#f29eec;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-dasharray:0.6, 0.9;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 130,40.087535 V 59.912462"
+       id="path5-8" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.37971534,0,0,0.37971534,62.727618,13.626339)"
+       id="text6"
+       style="font-size:16px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect6);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"><tspan
+         x="-112.52539"
+         y="32.706869"
+         id="tspan2"><tspan
+           style="font-style:italic;-inkscape-font-specification:'Palatino Linotype Italic'"
+           id="tspan1">Parent</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.3670887,0,0,0.3670887,61.097445,4.4861074)"
+       id="text7"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype Italic';text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect7);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"><tspan
+         x="-112.52539"
+         y="127.19515"
+         id="tspan3">Buddies</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,44.772285,9.9250708)"
+       id="text8"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype';text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect8);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="199.26382"
+       y="0"><tspan
+         x="9.3738762"
+         y="219.42725"
+         id="tspan4">Una richiesta per un blocco di dimensione leggermente superiore al </tspan><tspan
+         x="23.966938"
+         y="236.09387"
+         id="tspan5">quarto della memoria causa frammentazione interna (in viola).</tspan></text>
+  </g>
+</svg>

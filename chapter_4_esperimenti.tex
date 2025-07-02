@@ -157,22 +157,21 @@ Come abbiamo menzionato precedentemente nella nostra analisi dell'implementazion
   \label{fig:ramp_bitmap_unoptimized}
 \end{figure}
 
-Chiaramente, il caso riportato sopra risulta essere manipolato per esasperare il nostro punto. Non vi è alcun dubbio che sarebbe ben difficile incontrare in natura un pattern così sfortunato: tuttavia, bastano una serie di allocazioni mal concepite per rendere, soprattutto in corrispondenza di picchi di utilizzo, una cospicua parte della memoria inutilizzabile e pertanto riteniamo sia importante che il programmatore avveduto faccia uso di strumenti simili per comprendere il comportamento del proprio allocatore e, se necessario, apportare cambiamenti che lo rendano più adatto al proprio caso d'uso. Di seguito riportiamo altri due esempi di pattern in cui tuttavia è stata presa cura di minimizzare la frammentazione diminuendo le taglie degli oggetti allocati oppure, più semplicemente, aumentando di poco la dimensione dell'area di memoria che l'allocatore amministra.
+Chiaramente, il caso riportato sopra risulta essere manipolato per esasperare il nostro punto. Non vi è alcun dubbio che sarebbe ben difficile incontrare in natura un pattern così sfortunato: tuttavia, bastano una serie di allocazioni mal concepite per rendere, soprattutto in corrispondenza di picchi di utilizzo, una cospicua parte della memoria inutilizzabile e pertanto riteniamo sia importante che il programmatore avveduto faccia uso di strumenti simili per comprendere se il proprio allocatore si trovi in situazioni simili e, se necessario, apportare cambiamenti che lo rendano più adatto al proprio caso d'uso. Di seguito riportiamo altri due esempi di pattern in cui tuttavia è stata presa cura di minimizzare la frammentazione diminuendo le taglie degli oggetti allocati oppure, più semplicemente, aumentando di poco la dimensione dell'area di memoria che l'allocatore amministra.
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}{0.5\textwidth}
+  \begin{minipage}{0.48\textwidth}
     \centering
     \includegraphics[width=0.95\textwidth]{graphs/ramp_bitmap_optimized_requests.png}
-    \caption{Con richieste di dimensione leggermente minore, la frammentazione diventa irrilevante.}
     \label{fig:ramp_bitmap_optimized_requests}
   \end{minipage}\hfill
-  \begin{minipage}{0.5\textwidth}
+  \begin{minipage}{0.48\textwidth}
     \centering
     \includegraphics[width=0.95\textwidth]{graphs/ramp_bitmap_optimized_size.png}
-    \caption{Allocando relativamente poca memoria in più, la frammentazione diminuisce sostanzialmente.}
     \label{fig:ramp_bitmap_optimized_size}
   \end{minipage}
+  \caption{Allocando relativamente poca memoria in più oppure scegliendo in maniera avveduta le taglie degli oggetti, la frammentazione diminuisce sostanzialmente.}
 \end{figure}
 
 
