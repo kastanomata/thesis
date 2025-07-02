@@ -2,7 +2,7 @@
 
 Una gran parte della letteratura descritta nel secondo capitolo giunge a una conclusione importante sulle operazioni di analisi dei gestori dinamici di memoria: per valutare un algoritmo di allocazione, è necessario osservarne il comportamento e la risposta del sistema a un contesto realistico. Ciò può avvenire solamente laddove le tracce adoperate per condurre i \textit{benchmark} siano vicine alle allocazioni realmente compiute da programmi reali, che sono presi come esempio (esistono \textit{utilities} che permettono di registrare le richieste, in modo da poterle usare a questo scopo).
 
-Quando le tracce sono casualmente generate, il risultato finale ci dice ben poco sulle capacità effettive delle politiche di assegnazione. Le richieste prodotte da un generatore probabilistico possono anche ispirarsi ad un modello di comportamento, ma questo non è sufficiente: riprodurre le complesse interazioni tra allocazioni e deallocazioni di memoria è molto difficile, poiché queste ultime sono poco comprese e differiscono grandemente tra tipologie di applicazione. Il comportamento a fasi dei programmi dà vita a fenomeni di interconnessione sistematica che sono per la maggior parte ignorati.
+Quando le tracce sono casualmente generate, il risultato finale ci dice ben poco sulle capacità effettive delle politiche di assegnazione. Le richieste prodotte da un generatore probabilistico possono ispirarsi ad un modello di comportamento, ma questo non è sufficiente: riprodurre le complesse interazioni tra allocazioni e deallocazioni di memoria è molto difficile, poiché queste ultime sono poco comprese e differiscono grandemente tra tipologie di applicazione. Il comportamento a fasi dei programmi dà vita a fenomeni di interconnessione sistematica che sono per la maggior parte ignorati.
 
 Nel 1998, Wilson e Johnston approfondiscono i risultati del procedente \textit{paper} sull’allocazione dinamica di memoria indagando il comportamento di diversi noti programmi scritti in C e C++. Nell’articolo \textit{``The Memory Fragmentation Problem: Solved?''}\cite{wilson1998} gli autori tentano di dimostrare come la frammentazione può essere evitata laddove sia scelta con attenzione una politica di allocazione appropriata a prescindere dall’implementazione: questi risultati sono significativi perché suggeriscono che sia opportuno spostare la concentrazione di energie dal ridurre la frammentazione e dirigerle piuttosto nella direzione corrispondente a implementazioni più efficenti.
 
@@ -76,14 +76,13 @@ Gli allocatori che accettano richieste a taglia variabile presentano una comples
 Oltre ai test elencati, è utile prevedere casi limite e scenari di stress, come sequenze di allocazioni e deallocazioni ripetute con dimensioni variabili, tentativi di allocazione che saturano la memoria disponibile, e la verifica della corretta gestione di errori (ad esempio, \textit{double free} o allocazioni fuori dai limiti consentiti). Potrebbe essere positivo stabilire anche una serie standardizzata di messaggi d'errore per facilitare le operazioni di verifica: ciò non è stato fatto per mera mancanza di tempo. Un altro aspetto che è stato valutato di confermare consiste nello scrivere in tutta la memoria assegnata contemporaneamente e verificare che non ci sia corruzione dei dati. Funzioni sviluppate a questo scopo sono già esistenti nell'applicativo.
 
 \section{Benchmark}
-Poiché la nostra analisi si concentra principalmente sulla correttezza dell'implementazione, i test sopra delineati forniscono una prima conferma del nostro operato. Tuttavia, l'importanza della \textit{performance} dell'allocatore in diversi casi applicativi risulta essenziale per poter veramente trarre delle conclusioni a riguardo. 
-Nel corso delle ricerche, l'articolo \textit{"Designing a Trace Format for Heap Allocation Events"}\cite{chilimbi2000} di T.Chilimbi et al ha fornito un'interessante base teorica per il \textit{parser} qui descritto. Tuttavia, il nostro vuole essere unicamente un prototipo di funzionamento al fine di svolgere analisi più profonde, e sicuramente fornisce ben poche delle capacità descritte nell'articolo o altrimenti rese disponibili da altri strumenti simili applicati nel campo.\footnotemark
+Poiché la nostra analisi si concentra principalmente sulla correttezza dell'implementazione, i test sopra delineati forniscono una prima conferma del nostro operato. Tuttavia, l'importanza della \textit{performance} dell'allocatore in diversi casi applicativi risulta essenziale per poter veramente trarre delle conclusioni sostanziali. Per facilitare dunque l’analisi del comportamento degli allocatori in presenza di \textit{pattern} complessi di allocazione e deallocazione, è stata introdotta una funzionalità che consente di definire facilmente le sequenze di richieste di memoria tramite file di configurazione esterni, senza dover modificare o ricompilare il codice sorgente. In questo modo è possibile variare rapidamente i benchmark e testare diversi scenari. Il codice sorgente di questa funzionalità si trova nei moduli \texttt{benchmark} e \texttt{parse}.
+
+Nel corso delle ricerche, l'articolo \textit{``Designing a Trace Format for Heap Allocation Events''}\cite{chilimbi2000} di T.Chilimbi et al ha fornito un'interessante base teorica per il \textit{parser} qui descritto. Tuttavia, il nostro vuole essere unicamente un prototipo di funzionamento al fine di svolgere analisi più profonde, e sicuramente fornisce ben poche delle capacità descritte nell'articolo o altrimenti rese disponibili da altri strumenti simili applicati nel campo.\footnotemark
 
 \footnotetext{Alcuni di questi che menzioniamo per dovere di cronaca sono \texttt{perf, LTTng} e \texttt{ETW}. }
 
-Per facilitare dunque l’analisi del comportamento degli allocatori in presenza di \textit{pattern} complessi di allocazione e deallocazione, è stata introdotta una funzionalità che consente di definire facilmente le sequenze di richieste di memoria tramite file di configurazione esterni, senza dover modificare o ricompilare il codice sorgente. In questo modo è possibile variare rapidamente i benchmark e testare diversi scenari. Il codice sorgente di questa funzionalità si trova nei moduli \texttt{benchmark} e \texttt{parse}.
-
-Ciò è reso possibile dall’implementazione da parte di ogni allocatore dell’interfaccia \texttt{<Allocator>}. Poiché abbiamo a nostra disposizione i puntatori alle funzioni necessarie per svolgere tutte le operazioni, possiamo standardizzare il funzionamento delle classi dividendole in due categorie: allocatori a taglia fissa, che permettono di richiedere blocchi di grandezza prestabilita (e.g.\ \texttt{SlabAllocator}) e allocatori a taglia variabile, ossia le classi “figlie” di \texttt{VariableBlockAllocator}, le quali invece lasciano all’utente la scelta della dimensione dell’area di memoria richiesta (ossia \texttt{BuddyAllocator} e \texttt{BitmapBuddyAllocator}, nella nostra implementazione).
+Questa funzionalità è resa possibile dall’implementazione da parte di ogni allocatore dell’interfaccia \texttt{<Allocator>}. Poiché abbiamo a nostra disposizione i puntatori alle funzioni necessarie per svolgere tutte le operazioni, possiamo standardizzare il funzionamento delle classi dividendole in due categorie: allocatori a taglia fissa, che permettono di richiedere blocchi di grandezza prestabilita (e.g.\ \texttt{SlabAllocator}) e allocatori a taglia variabile, ossia le classi “figlie” di \texttt{VariableBlockAllocator}, le quali invece lasciano all’utente la scelta della dimensione dell’area di memoria richiesta (ossia \texttt{BuddyAllocator} e \texttt{BitmapBuddyAllocator}, nella nostra implementazione).
 
 \begin{lstlisting}
   // template per allocatore a dimensione fissa
@@ -114,7 +113,7 @@ Bitmap  & Variabile & \texttt{memory\_size} & \texttt{max\_levels}  \\
 \caption{Parametri di inizializzazione per ciascuna classe di allocatore}
 \end{table}
 
-Per allocare e liberare memoria, l’istruzione deve iniziare rispettivamente con ``a'' o ``f''. Il benchmark per tenere traccia delle allocazioni usa un array avente lunghezza pari al numero massimo possibile di frammenti di memoria che possono esistere contemporaneamente. Un possibile oggetto di rivalutazione potrebbe essere l'uso di strutture per immagazzinare simboli più complessi e tenere traccia degli indirizzi in modo più chiaro. Il comando \texttt{a,<index>} alloca memoria in una posizione specifica dell'array, mentre \texttt{f,<index>} la libera. Nel caso di allocatore a richiesta variabile, dopo l’index dell’array va specificato il numero di byte da allocare (con struttura \texttt{a,<index>,<size>}). 
+Per allocare e liberare memoria, l’istruzione deve iniziare rispettivamente con ``a'' o ``f''. Il benchmark per tenere traccia delle allocazioni usa un array avente lunghezza pari al numero massimo possibile di frammenti di memoria che possono esistere contemporaneamente. Un possibile miglioramento potrebbe essere l'uso di strutture dati come \textit{hashmaps} per immagazzinare simboli più complessi e tenere traccia degli indirizzi in modo più chiaro. Il comando \texttt{a,<index>} alloca memoria in una posizione specifica dell'array, mentre \texttt{f,<index>} la libera. Nel caso di allocatore a richiesta variabile, dopo l’index dell’array va specificato il numero di byte da allocare (con struttura \texttt{a,<index>,<size>}). 
 
 È fondamentale non allocare più volte sullo stesso indice senza prima liberarlo, altrimenti si perderà il riferimento all'area di memoria e non sarà più possibile gestirla correttamente\footnotemark. Il programma esegue la sequenza di \textit{requests} e \textit{releases}, informa l'utente di eventuali errori e produce un informativa sul tempo richiesto a portare a termine il \textit{benchmark}: \texttt{elapsed\_seconds}, \texttt{user\_seconds} e \texttt{kernel\_seconds}. In più, produce un file di \texttt{.log} che contiene informazioni sulle singole istruzioni (in particolare, per i \texttt{VariableBlockAllocator}, inserisce anche lo stato della frammentazione interna ed esterna dell'allocatore a ogni istruzione).
 L'analisi di queste informazioni fornisce alcune metriche aggiuntive sul comportamento dell'allocatore e sulla sua \textit{performance}.
@@ -137,12 +136,16 @@ La letteratura individua tre principali pattern di utilizzo della memoria che ri
   \textit{Esempio:} web server che mantengono strutture dati per la gestione delle connessioni attive, database \textit{in-memory} che caricano dati all’avvio e li mantengono residenti, o giochi che caricano la mappa di gioco all’inizio e la usano per tutta la sessione.
 \end{itemize}
 
+
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{graphs/mixed_patterns_bitmap.png}
+  \includegraphics[width=0.8\textwidth]{graphs/mixed_patterns_bitmap.png}
   \caption{Comportamento del BitmapBuddyAllocator su un benchmark contenente in ordine, \textit{peaks, plateaus} e \textit{ramps}.}
   \label{fig:mixed_patterns_bitmap}
 \end{figure}
+
+% Le conclusioni dello studio ``Dynamic Storage Allocation, A Survey and Critical Review'' sull'argomento sono riassunte dagli autori. Le riportiamo perché sembrano quanto mai rilevanti ad acquisire una prospettiva corretta sui risultati ottenuti. Innanzitutto, il comportamento dei programmi è tipicamente variabile nel tempo, anziché costante. In secondo luogo, l'utilizzo massimo della memoria (\textit{peak memory usage}) è un fattore critico, poiché la frammentazione in questi momenti di picco è più significativa rispetto alle fasi intermedie. La frammentazione è causata proprio da questo comportamento dinamico, specialmente quando i picchi di utilizzo coinvolgono oggetti di dimensioni diverse. La conoscenza del comportamento specifico di un programma può invalidare risultati sperimentali e analitici precedenti: il comportamento non casuale dei programmi può essere sfruttato per ottimizzarne le prestazioni. Infine, programmi diversi possono mostrare modelli caratteristici e non casuali, che variano in base alla loro natura e funzionalità. \textbf{Questi aspetti sottolineano l'importanza di un'analisi personalizzata per migliorare l'efficienza nella gestione della memoria.}
 
 \paragraph{Costo legato al logging.}
 Utilizzando lo strumento da noi creato, siamo in grado di simulare questi \textit{pattern} e verificare il comportamento degli allocatori in loro presenza. Nel considerare i risultati ottenuti ricordiamo tuttavia che l'applicazione del \textit{profiling} comporta ovviamente un costo non trascurabile: i risultati successivamente riportati sono chiaramente influenzati dalle operazioni di \textit{logging} svolte dal programma. Sono state fatte numerose scelte nel tentativo di evitare costi eccessivi, ma sfortunatamente è impossibile analizzare gli allocatori così a fondo senza introdurre una misura di \textit{overhead}.
@@ -152,7 +155,7 @@ Utilizzando lo strumento da noi creato, siamo in grado di simulare questi \texti
 Come abbiamo menzionato precedentemente nella nostra analisi dell'implementazione degli allocatori che implementano un \textit{buddy system}, la possibilità di frammentazione interna molto elevata al punto da essere debilitante non è da trascurarsi. Adoperando lo strumento da noi creato per simulare un caso estremo, possiamo facilmente osservare dai grafici come determinate combinazioni di parametri di inizializzazione e richieste mal formulate possano rendere l'allocatore molto inefficace nel gestire la memoria a sua disposizione. Le linee rosse sul grafico rappresentano richieste che non è stato possibile soddisfare per via di frammentazione interna o esterna.
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{graphs/ramp_bitmap_unoptimized.png}
+  \includegraphics[width=0.8\textwidth]{graphs/ramp_bitmap_unoptimized.png}
   \caption{Sequenza di istruzioni che causano nel BuddyAllocator grande frammentazione interna. Notiamo che la quantità di memoria inutilizzabile è pari a quella allocata.}
   \label{fig:ramp_bitmap_unoptimized}
 \end{figure}
@@ -177,7 +180,7 @@ Chiaramente, il caso riportato sopra risulta essere manipolato per esasperare il
 
 \subsection{LinkedList vs. Bitmap}
 
-Sebbene esse siano quasi uguali in termini di frammentazione interna ed esterna (la politica di allocazione è difatti la medesima), la caratteristica che distigue il \texttt{BuddyAllocator} e il \texttt{BitmapBuddyAllocator} è la struttura dati adoperata per mantenere i riferimenti ai blocchi liberi, in quanto l'implementazione del primo adopera liste concatenate per rappresentare ogni livello. Questa scelta è stata fatta in quanto in ogni momento in ogni lista può essere presente un numero di elementi altamente variabile: la natura delle \textit{LinkedList} le rende quindi particolarmente adatte a svolgere questo ruolo. Ciononostante, nella prima iterazione questo allocatore è andato incontro a una problematica, di cui svolgiamo un'analisi nella sezione successiva.
+Sebbene siano paragonabili in termini di frammentazione interna ed esterna (la politica di allocazione è infatti una variazione), la caratteristica che distigue il \texttt{BuddyAllocator} e il \texttt{BitmapBuddyAllocator} è la struttura dati adoperata per mantenere i riferimenti ai blocchi liberi, in quanto l'implementazione del primo adopera liste concatenate per rappresentare ogni livello. Questa scelta è stata fatta in quanto in ogni momento in ogni lista può essere presente un numero di elementi altamente variabile: la natura delle \textit{LinkedList} le rende quindi particolarmente adatte a svolgere questo ruolo. Ciononostante, nella prima iterazione questo allocatore è andato incontro a una problematica, di cui svolgiamo un'analisi nella sezione successiva.
 
 Utilizzando lo strumento \texttt{cachegrind} e gli altri \textit{tool} compresi in \textit{valgrind}, abbiamo potuto svolgere un analisi più approfondita del comportamento del nostro programma, in particolare rilevando le differenze tra le due implementazioni del \textit{buddy system}. Il comportamento della cache dipende dalle caratteristiche del calcolatore. I test eseguiti di seguito sono stati svolti su un sistema avente le seguenti caratteristiche:
 \begin{lstlisting}[language={}]
@@ -186,10 +189,10 @@ desc: D1 cache:   32768 B, 64 B, 8-way associative
 desc: LL cache:   6291456 B, 64 B, 12-way associative
 \end{lstlisting}
 
-Infine, i dati chiaramenti risentono della presenza delle infrastrutture di controllo e logging. Chiaramente gli accessi in memoria sono molti di più di quelli che avverrebbero in un'applicazione reale perché il programma sta salvando informazioni sullo stato. Poiché però lo "svantaggio" dato dalle risorse aggiuntive di cui sopra si applica in maniera uniforme a tutti i test, riteniamo non sia fuorviante condurre un'analisi relativa e comparata.
+Infine, come affermato precedentemente, i dati risentono della presenza delle infrastrutture di controllo e logging. Gli accessi in memoria sono molti di più di quelli che avverrebbero in un'applicazione reale perché il programma sta salvando informazioni sullo stato in RAM per poi spostarle sul file di log. Poiché però l'\textit{overhead} dato dalle risorse aggiuntive di cui sopra si applica in maniera uniforme a tutti i test, riteniamo non sia fuorviante condurre un'analisi relativa e comparata.
 
 \subsubsection*{Prevenzione dei \textit{Double free}}
-Un'analisi preliminare delle prestazioni del \texttt{BuddyAllocator} mostra che risulta significativamente più lento rispetto all'alternativa basata su bitmap. Questo dato conferma le aspettative teoriche di una maggiore complessità, ma l'entità della differenza osservata è superiore a quanto previsto e suggerisce la presenza di ulteriori fattori che penalizzano l'efficienza dell'implementazione.
+Un'analisi preliminare delle prestazioni del \texttt{BuddyAllocator} lo pone nettamente al secondo posto in rapidità rispetto all'alternativa basata su \textit{bitmap}. Questo dato conferma le aspettative teoriche di una maggiore complessità, ma l'entità della differenza osservata è superiore a quanto previsto e suggerisce la presenza di ulteriori fattori che penalizzano l'efficienza dell'implementazione.
 
 \begin{lstlisting}
 i,buddy
@@ -232,7 +235,7 @@ Come vediamo facilmente, il programma così formulato ha un altissimo numero di 
 
 All'interno del \texttt{BuddyAllocator} sono presenti due \texttt{SlabAllocator} per uso interno. Uno di essi in particolare, \texttt{node\_allocator}, si occupa di gestire la memoria necessaria per mantenere i \texttt{BuddyNode}: essi contengono le informazioni sui \textit{buddies} e sono quindi indispensabili. Quando la memoria viene rilasciata nel \texttt{BuddyAllocator}, se due \textit{buddies} sono liberi e pertanto riunificati, i \texttt{BuddyNodes} contenenti le informazioni su di essi vengono a loro volta riconsegnati alla \textit{free list} dello \texttt{SlabAllocator}. Quando esso riprende possesso di uno \textit{slab}, si assicura che non sia stato precedentemente rilasciato (evitando l'errore noto come \textit{double free}). Questa verifica può essere fatta attraverso la scansione della lista contenente tutti gli slab liberi, che è molto costosa poiché il costo è lineare al numero degli stessi. 
 
-La nostra implementazione, per mantenere le informazioni necessarie per costruire i log, finisce per esacerbare il problema: il numero di slab nella lista è dato da $2^{L+1}$\footnotemark, dove $L$ rappresenta il numero di livelli dell'allocatore, in quanto, partizionando la memoria, dobbiamo tenere un riferimento non solo ai \textit{buddies}, ma anche ai genitori. In fase di sviluppo abbiamo menzionato che sarebbe possibile ottenere le informazioni del genitore dinamicamente, ma avevamo scelto di fare altrimenti per semplificare la raccolta di informazioni. Il numero di istruzioni che accedono alla memoria diventa quindi altissimo: l'efficienza ne risente a causa dell'elevato numero di \textit{data cache miss}.
+La nostra implementazione, per mantenere il flusso di dati che richiediamo per i nostri scopi analitici, concorre a esacerbare il problema: il numero di \textit{slab} nella lista\footnotemark è dato da $2^{L+1}$, dove $L$ rappresenta il numero di livelli dell'allocatore, in quanto partizionando la memoria abbiamo scelto tenere un riferimento non solo ai \textit{buddies}, ma anche ai genitori. In fase di sviluppo abbiamo menzionato che sarebbe possibile ottenere le informazioni del genitore dinamicamente, ma avevamo scelto di fare altrimenti per semplificare la raccolta di informazioni. Il numero di istruzioni che accedono alla memoria diventa quindi altissimo: l'efficienza ne risente a causa dell'elevato numero di \textit{data cache miss}.
 
 \footnotetext{Uno per ogni nodo di un albero binario completo.}
 
@@ -248,11 +251,27 @@ La nostra implementazione, per mantenere le informazioni necessarie per costruir
 
 Per evitare la scansione lineare, la soluzione applicata è l'utilizzo di una flag all'interno di \texttt{SlabNode}, \texttt{bool in\_free\_list}, che ci permette di verificare più rapidamente se il blocco sia stato già liberato e quindi aggiunto alla \texttt{free list}. Questo check tuttavia è molto meno sicuro, e se il dato venisse corrotto permetterebbe il \textit{double free} di uno slab, che potrebbe dunque essere restituito due volte come risultato di una richiesta di memoria. 
 
+\begin{lstlisting}
+typedef struct {
+  Node node;
+  char* data;
+  bool in_free_list;
+} SlabNode;
+
+// Check if node is already in free list using a flag
+if (slab_node->in_free_list) {
+    #ifdef DEBUG
+    printf(RED "ERROR: Failed to free: slab node already in free list!\n" RESET);
+    #endif
+    return NULL;
+}
+\end{lstlisting}
+
 \subsubsection{Efficienza della cache}
 
-A seguito dell'ottimizzazione vista precedentemente, il comportamento dell'implementazione di \texttt{BuddyAllocator} che adopera le \textit{linked list} produce risultati molto migliori. Il numero di istruzioni è ridotto significativamente, così come la quantità di \textit{data reference} e conseguentemente dei cache miss. Viene tuttavia pagato un caro prezzo in termini di memoria da allocare per gestire la struttura ad albero: in particolare, un allocatore caratterizzato da un numero elevato di livelli richiede che sia adoperata moltissima memoria per gestire lo \texttt{SlabAllocator} al suo interno. Questo tuttavia si traduce in risultati molto positivi da punto di vista dell'efficenza temporale delle operazioni di allocazione e deallocazione, che avvengono molto velocemente. Verifichiamo \textit{throughput}, in base alla sequenza scelta, nell'ordine delle centinaia di migliaia di operazioni al secondo. 
+A seguito dell'ottimizzazione vista precedentemente, il comportamento dell'implementazione di \texttt{BuddyAllocator} che adopera le \textit{linked list} produce risultati molto migliori. Il numero di istruzioni è ridotto significativamente, così come la quantità di \textit{data reference} e conseguentemente dei cache miss. Viene tuttavia pagato un caro prezzo in termini di memoria da allocare per gestire la struttura ad albero: in particolare, un allocatore caratterizzato da un numero elevato di livelli richiede che sia riservata per il suo uso memoria per gestire lo \texttt{SlabAllocator} al suo interno. Questo tuttavia si traduce in risultati molto positivi da punto di vista dell'efficienza temporale delle operazioni di allocazione e deallocazione, che avvengono molto velocemente. Verifichiamo \textit{throughput}, in base alla sequenza scelta, nell'ordine delle centinaia di migliaia di operazioni al secondo. 
 
-Contemporaneamente però, alle preoccupazioni sulla quantità di memoria necessaria all'allocatore se ne aggiungono altre sulla non località della cache. La memoria gestita e quella usata a scopi organizzativi sono diverse, e quindi non abbiamo nessuna assicurazione sul comportamento del buffer: questo comporta maggiore imprevedibilità nella previsione delle \textit{performance} dell'allocatore. Ricordiamo infatti che il nostro benchmark non accede alla memoria allocata: pertanto il quadro a nostra disposizione non è completo e sicuramente in casi d'uso reali l'efficienza della cache che si trovi allo stesso tempo a gestire le richieste di accesso ai dati da parte dell'utente si comporterebbe in modo assai meno efficiente, in quanto verrebbero anche caricate nella memoria temporanea linee di cache in ordine per noi imprevedibile. 
+Contemporaneamente però, alle preoccupazioni sulla quantità di memoria necessaria all'allocatore se ne aggiungono altre sulla non località della cache. La memoria gestita e quella usata a scopi organizzativi sono diverse, e quindi non abbiamo nessuna assicurazione sul comportamento del buffer: questo comporta maggiore indecisione nelle \textit{performance} dell'allocatore. Ricordiamo infatti che il nostro benchmark non accede alla memoria allocata e pertanto il quadro a nostra disposizione non è completo. Sicuramente in casi d'uso reali l'efficienza della cache che si trovi allo stesso tempo a gestire le richieste di accesso ai dati da parte dell'utente si comporterebbe in modo molto meno prevedibile, in quanto verrebbero anche caricate nella memoria temporanea linee di cache in ordine per noi non noto. 
 
 \begin{lstlisting}[language={}]
 i,buddy
@@ -275,7 +294,7 @@ LL misses:         9,008  (    4,071 rd   +   4,937 wr)
 LL miss rate:        0.2% (      0.1%     +     0.9%  )
 \end{lstlisting}
 
-In contrasto con i risultati ottenuti per l'implementazione originale del \textit{buddy system}, la classe \texttt{BitmapBuddyAllocator} presenta risultati ben diversi. Il numero delle istruzioni ritorna ad essere molto elevato: ciò è dovuto alla natura ricorsiva delle funzioni di manipolazione della bitmap, che deve essere aggiornata quando cambia lo stato. Non escludiamo che sia possibile, forse dedicando più risorse per mantenere lo stato della memoria gestita, evitare questo numero così alto. Dal punto di vista della rapidità, il programma ne risulta sicuramente rallentato: tuttavia, la località della cache è molto migliore. Il numero di miss è irrisorio e sappiamo anche che la quantità di memoria necessaria per immagazzinare le informazioni è minore. La bitmap infatti è compatta e può essere più facilmente immagazzinata nella memoria intermedia. 
+In contrasto con i risultati ottenuti per l'implementazione originale del \textit{buddy system}, la classe \texttt{BitmapBuddyAllocator} presenta risultati ben diversi. Il numero delle istruzioni ritorna ad essere molto elevato: ciò è dovuto alla natura ricorsiva delle funzioni di manipolazione della \textit{bitmap}, che deve essere aggiornata interamente quando cambia lo stato. Non escludiamo che sia possibile, forse dedicando più risorse per mantenere lo stato della memoria gestita, evitare questo numero così alto di istruzione. Dal punto di vista della rapidità, il programma ne risulta sicuramente rallentato: tuttavia, la località della \textit{cache} è molto migliore. Il numero di \textit{miss} è irrisorio e sappiamo anche che la quantità di memoria necessaria per immagazzinare le informazioni è minore. La \textit{bitmap} infatti è compatta e può essere più facilmente immagazzinata nella memoria intermedia. 
 
 \begin{lstlisting}[language={}]
 i,bitmap
@@ -298,16 +317,13 @@ LL misses:          5,865  (    4,076 rd   +     1,789 wr)
 LL miss rate:         0.0% (      0.0%     +       0.1%  )
 \end{lstlisting}
 
-I risultati ottenuti ci forniscono le seguenti linee guida:
+\paragraph{Linee guida.}
+Se il tempo è critico e la quantità di memoria non è un fattore, \texttt{BuddyAllocator} fornisce un \textit{throughput} ben maggiore e, con alcune ottimizzazioni ulteriori, potrebbe risultare la soluzione migliore per \textit{buddy system}
+ dalla scarsa profondità, in quanto il numero dei nodi cresce con il suo quadrato. 
+Ad esempio, in un sistema operativo o in un \textit{hypervisor} dove si devono gestire moltissime allocazioni e deallocazioni al secondo (come nel caso di un server di rete o un sistema \textit{real-time}), l'elevata velocità di risposta del \texttt{BuddyAllocator} è cruciale e giustifica il maggiore uso di memoria.
 
-Se il tempo è critico e la quantità di memoria non è un fattore, BuddyAllocator fornisce un throughput ben maggiore e, con alcune ottimizzazioni ulteriori, potrebbe risultare la soluzione migliore per buddy system dalla scarsa profondità, in quanto il numero dei nodi cresce con il suo quadrato. 
-Ad esempio, in un sistema operativo o in un hypervisor dove si devono gestire moltissime allocazioni e deallocazioni al secondo (come nel caso di un server di rete o un sistema real-time), l'elevata velocità di risposta del BuddyAllocator è cruciale e giustifica il maggiore uso di memoria.
-
-Nei casi dove la memoria scarseggia ed è essenziale sfruttare al massimo l'efficacia della cache, il BitmapBuddyAllocator splende per località e semplicità. Le sue caratteristiche lo rendono più adatto quando è necessario avere performance stabili e prevedibili anche sotto carico realistico.
-In ambienti embedded o su dispositivi IoT dove la RAM è limitata (es. microcontrollori con pochi KB/MB di memoria), oppure in sistemi mobile o edge computing, l'uso efficiente della cache e la ridotta impronta della bitmap sono essenziali per garantire affidabilità e reattività.
-
-\paragraph{Considerazioni sulla thread safety.}
-Se si richiedesse di integrare l'implementazione degli allocatori in modo che essi siano \textit{thread safe}, i fattori da considerare aumenterebbero ulteriormente. La gestione concorrente delle liste concatenate nel \texttt{BuddyAllocator} richiederebbe l'uso di meccanismi di sincronizzazione più complessi (ad esempio, mutex o lock per ogni lista), aumentando il rischio di contese e rallentando le operazioni in presenza di molti thread. Al contrario, la struttura compatta e lineare della bitmap nel \texttt{BitmapBuddyAllocator} si presta meglio a implementazioni thread safe, poiché è più semplice proteggere sezioni critiche e, in alcuni casi, è possibile sfruttare operazioni atomiche su bit per ridurre l'overhead della sincronizzazione. Pertanto, in scenari multithreaded, il \texttt{BitmapBuddyAllocator} risulta generalmente preferibile per la maggiore scalabilità e semplicità nella gestione della concorrenza.
+Nei casi dove la memoria scarseggia ed è essenziale sfruttare al massimo l'efficacia della \textit{cache}, il \texttt{BitmapBuddyAllocator} splende per località e semplicità. Le sue caratteristiche lo rendono più adatto quando è necessario avere performance stabili e prevedibili anche sotto carico realistico.
+In ambienti \textit{embedded} o su dispositivi IoT dove la RAM è limitata (es. microcontrollori con pochi KB/MB di memoria), oppure in sistemi \textit{mobile} o \textit{edge computing}, l'uso efficiente della \textit{cache} e la ridotta impronta della \textit{bitmap} sono essenziali per garantire affidabilità e reattività.
 
 \pagebreak
 
