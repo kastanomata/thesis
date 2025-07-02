@@ -8,29 +8,6 @@
 \usepackage{tabularx}
 \usepackage{listings}
 \usepackage{xcolor}
-\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
-\lstset{
-  language=C,                         
-  basicstyle=\ttfamily\small,          % font size and style
-  backgroundcolor=\color{lightgray},   % background color
-  frame=single,                        % adds a box around code
-  rulecolor=\color{gray},              % color of frame
-  numbers=left,                        % show line numbers
-  numberstyle=\tiny\color{gray},       % style of line numbers
-  numbersep=10pt,                      % space between code and line numbers
-  keywordstyle=\color{blue},           % style for keywords
-  commentstyle=\color{green!50!black}, % style for comments
-  stringstyle=\color{red},             % style for strings
-  tabsize=4,                           % tab width
-  showstringspaces=false,              % don't show spaces in strings
-  breaklines=true,                     % automatic line breaking
-  breakatwhitespace=true,              % only break at white space
-  captionpos=b                         % caption position (t or b)
-}
-
-\usepackage{ulem}
-
-\usepackage{lipsum}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{placeins}
@@ -38,8 +15,55 @@
 \usepackage{hyperref}
 \usepackage{multicol,caption}
 \usepackage[bottom]{footmisc}
+\usepackage{parskip}
 
-\title{Implementazione di un allocatore di memoria bare metal in C}
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+% Default C style
+\lstdefinestyle{CStyle}{
+  language=C,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{lightgray},
+  frame=single,
+  rulecolor=\color{gray},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=10pt,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+  tabsize=4,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b
+}
+
+% Terminal style
+\lstdefinestyle{TerminalStyle}{
+  language=[x86masm]Assembler,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{lightgray},
+  frame=single,
+  rulecolor=\color{gray},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=10pt,
+  keywordstyle=\color{purple},
+  commentstyle=\color{teal},
+  stringstyle=\color{orange},
+  tabsize=4,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b
+}
+
+% Set default style for lstlisting
+\lstset{style=CStyle}
+
+
+\title{Implementazione di un allocatore di memoria \textit{bare metal} in C}
 % \alttitle{A study on Memory Allocators}
 \subtitle{Come ho imparato a non preoccuparmi e ad amare l'allocatore}
 \author{Antonio Turco}
@@ -57,10 +81,14 @@
 
 \frontmatter  
 \maketitle
-\dedication{Dedicato a chi rimane curioso per tutta la vita}
+\dedication{A chi fa della curiosità il proprio mestiere}
 
 \begin{abstract}
-  ABS HERE
+Questa tesi esplora l’implementazione di allocatori di memoria in contesti \textit{bare metal} in C, analizzando strategie per gestire la memoria dinamica in assenza di un sistema operativo. Vengono presentati tre allocatori principali: lo \texttt{SlabAllocator}, ottimizzato per blocchi di dimensione fissa; il \texttt{BuddyAllocator}, che bilancia flessibilità e frammentazione attraverso il \textit{buddy system}; e il \texttt{BitmapBuddyAllocator}, una variante che migliora l’efficienza della cache utilizzando una \textit{bitmap}.
+
+L’analisi evidenzia come la scelta dell’allocatore dipenda dal contesto applicativo, con \textit{trade-off} tra velocità, frammentazione e utilizzo delle risorse. I \textit{benchmark} dimostrano che soluzioni specializzate, come lo \texttt{SlabAllocator}, offrono prestazioni ottimali per casi d’uso specifici, mentre allocatori più generalisti, come quelli che implementano il \textit{buddy system}, garantiscono adattabilità con alcuni compromessi sulla frammentazione.
+
+Il lavoro sottolinea l’importanza di una progettazione consapevole, mostrando come allocatori personalizzati possano superare soluzioni generiche in scenari critici, come sistemi \textit{real-time} o \textit{embedded}. Le conclusioni offrono spunti per ottimizzazioni future, tra cui l’integrazione di meccanismi per la \textit{thread safety} e tecniche avanzate di gestione della frammentazione.
 \end{abstract}
 
 
@@ -82,7 +110,15 @@
 \backmatter
 
 \begin{acknowledgments}
-  ACK HERE 
+Ringrazio in primo luogo il professor Grisetti per la sua disponibilità e per avermi permesso di approfondire questo affascinante argomento attraverso le sue lezioni e il progetto. Il suo entusiasmo per la materia e per l'insegnamento traspare dalle sue lezioni e le sono grato per avermi indicato la via verso un mondo magico di puntatori, onde quadre e bit.
+
+Un abbraccio alla mia famiglia, per avermi sostenuto nel corso di questo percorso che nel darmi tante soddisfazioni mi ha anche fatto crucciare tanto. Voglio che sappiate che il vostro aiuto è stato indispensabile per arrivare a questo traguardo. Mamma, babbo, Xeni e i nonni, gli zii e i cugini che da lontano mandate i vostri pensieri: avete la mia gratitudine e il mio affetto. Una carezza a Bamba che invece ha ostacolato il processo a ogni passo distraendomi dallo studio. 
+
+A Claudia Mezi, la mia fidanzata, per avermi sopportato e ascoltato nei miei deliri insonni. Siamo stati l'uno la spalla dell'altro e averti avuto al mio fianco è stato un privilegio dorato: con la tua comprensione e la tua determinazione, i giorni di studio sono risultati più leggeri al mio cuore. La tua presenza ha migliorato la mia vita e mi rende una parsona migliore. Ti voglio più bene di quanto possa mai esprimere a parole.
+
+I miei colleghi Alfredo, Alessandro e Damiano, per avermi spronato a venire in università anche nei giorni più neri e avermi dato il conforto della risata e della spensieratezza anche quando i nostri pensieri erano cupi e tempestosi. I miei amici Alessio e Maria Vittoria che, come un faro che si intravede all'orizzonte quando la burrasca infuria, mi hanno mantenuto sulla retta via da lontano, e Matteo che con la sua gentile insistenza mi ha riportato il piacere delle mie passioni. 
+
+Grazie dal profondo del mio cuore a tutti: avanti, verso la prossima avventura!
 \end{acknowledgments}
 
 \end{document}
